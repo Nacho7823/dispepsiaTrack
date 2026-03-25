@@ -3,9 +3,12 @@
 
 echo "Starting Dispepsia Tracker..."
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PYTHON="$SCRIPT_DIR/venv/bin/python3"
+
 # Start API server in background
 echo "Starting API server on port 5001..."
-python3 api.py --host 0.0.0.0 --port 5001 &
+"$PYTHON" "$SCRIPT_DIR/api.py" --host 0.0.0.0 --port 5001 &
 API_PID=$!
 
 # Wait a moment for API to start
@@ -13,7 +16,7 @@ sleep 2
 
 # Start frontend server
 echo "Starting Frontend server on port 5000..."
-python3 app.py --host 0.0.0.0 --port 5000 &
+"$PYTHON" "$SCRIPT_DIR/app.py" --host 0.0.0.0 --port 5000 &
 FRONTEND_PID=$!
 
 echo ""
