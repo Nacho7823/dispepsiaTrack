@@ -34,15 +34,16 @@ const HistoryScreen = ({ entries, onDelete, onUpdate, customFields, columns }) =
 
   if (entries.length === 0) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center text-slate-400">
-        <Calendar size={48} className="mb-4 opacity-20" />
-        <p>Sin registros.</p>
+      <div className="flex-1 flex flex-col items-center justify-center text-organic-400">
+        <Calendar size={48} className="mb-4 opacity-30" />
+        <p className="font-body text-lg">Sin registros.</p>
+        <p className="text-sm text-organic-300 mt-1">Tus datos aparecerán aquí</p>
       </div>
     );
   }
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-8">
+    <div className="flex-1 overflow-y-auto p-5 md:p-8 space-y-8">
       <EntryChart
         data={sortedData}
         chartType={chartType}
@@ -53,7 +54,7 @@ const HistoryScreen = ({ entries, onDelete, onUpdate, customFields, columns }) =
       />
 
       <div className="flex justify-end">
-        <button onClick={() => setShowTable(!showTable)} className="bg-indigo-600 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-indigo-700">
+        <button onClick={() => setShowTable(!showTable)} className="organic-btn-secondary text-sm">
           {showTable ? 'Ver Lista' : 'Ver Tabla'}
         </button>
       </div>

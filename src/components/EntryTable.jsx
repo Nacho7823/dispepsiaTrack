@@ -20,29 +20,39 @@ const getCellValue = (entry, col, customFields) => {
 };
 
 const EntryTable = ({ entries, columns, customFields, onEdit, onDelete }) => (
-  <section className="bg-white rounded-2xl border overflow-hidden">
+  <section className="organic-card overflow-hidden">
     <div className="overflow-x-auto">
-      <table className="w-full text-sm">
-        <thead className="bg-slate-50 border-b">
+      <table className="w-full text-sm font-body">
+        <thead className="bg-organic-100 border-b border-organic-200">
           <tr>
             {columns.map((col, idx) => (
-              <th key={idx} className="px-4 py-3 text-left font-bold text-slate-600">{col.label}</th>
+              <th key={idx} className="px-5 py-3.5 text-left font-semibold text-organic-700">{col.label}</th>
             ))}
-            <th className="px-4 py-3 text-left font-bold text-slate-600">Acciones</th>
+            <th className="px-5 py-3.5 text-left font-semibold text-organic-700">Acciones</th>
           </tr>
         </thead>
-        <tbody className="divide-y">
+        <tbody className="divide-y divide-organic-100">
           {entries.map(entry => (
-            <tr key={entry.id} className="hover:bg-slate-50">
+            <tr key={entry.id} className="hover:bg-organic-50 transition-colors duration-150">
               {columns.map((col, idx) => (
-                <td key={idx} className="px-4 py-3 text-slate-700 whitespace-nowrap">
+                <td key={idx} className="px-5 py-3.5 text-organic-700 whitespace-nowrap">
                   {getCellValue(entry, col, customFields)}
                 </td>
               ))}
-              <td className="px-4 py-3">
-                <div className="flex gap-1">
-                  <button onClick={() => onEdit(entry)} className="p-1 text-indigo-500 hover:bg-indigo-50 rounded"><Edit3 size={16} /></button>
-                  <button onClick={() => onDelete(entry.id)} className="p-1 text-red-400 hover:bg-red-50 rounded"><Trash2 size={16} /></button>
+              <td className="px-5 py-3.5">
+                <div className="flex gap-1.5">
+                  <button
+                    onClick={() => onEdit(entry)}
+                    className="p-2 text-leaf-600 hover:bg-leaf-50 rounded-organic-sm transition-colors cursor-pointer"
+                  >
+                    <Edit3 size={16} />
+                  </button>
+                  <button
+                    onClick={() => onDelete(entry.id)}
+                    className="p-2 text-terracotta-400 hover:bg-terracotta-50 rounded-organic-sm transition-colors cursor-pointer"
+                  >
+                    <Trash2 size={16} />
+                  </button>
                 </div>
               </td>
             </tr>
@@ -57,32 +67,45 @@ const EntryList = ({ entries, customFields, onEdit, onDelete }) => {
   const [expandedId, setExpandedId] = useState(null);
 
   return (
-    <section className="bg-white rounded-2xl border overflow-hidden">
-      <div className="p-4 border-b bg-slate-50 font-bold">Historial Completo</div>
-      <div className="divide-y">
+    <section className="organic-card overflow-hidden">
+      <div className="p-5 border-b border-organic-200 bg-organic-100/50 font-heading font-semibold text-organic-700">Historial Completo</div>
+      <div className="divide-y divide-organic-100">
         {entries.map(entry => (
-          <div key={entry.id} className="p-4 hover:bg-slate-50">
+          <div key={entry.id} className="p-5 hover:bg-organic-50 transition-colors duration-150">
             <div className="flex justify-between items-center">
               <div>
-                <p className="text-xs text-slate-400">{formatDate(entry.fecha)}</p>
-                <p className="font-bold">{entry.sintoma_tipo?.join(', ') || 'Registro'}</p>
+                <p className="text-xs text-organic-400 font-body">{formatDate(entry.fecha)}</p>
+                <p className="font-heading font-semibold text-organic-800 mt-0.5">{entry.sintoma_tipo?.join(', ') || 'Registro'}</p>
               </div>
               <div className="flex gap-2">
-                <button onClick={() => onEdit(entry)} className="p-2 text-indigo-500 hover:bg-indigo-50 rounded"><Edit3 size={18} /></button>
-                <button onClick={() => setExpandedId(expandedId === entry.id ? null : entry.id)} className="p-2 text-slate-400">
-                  {expandedId === entry.id ? <ChevronUp /> : <ChevronDown />}
+                <button
+                  onClick={() => onEdit(entry)}
+                  className="p-2 text-leaf-600 hover:bg-leaf-50 rounded-organic-sm transition-colors cursor-pointer"
+                >
+                  <Edit3 size={18} />
                 </button>
-                <button onClick={() => onDelete(entry.id)} className="p-2 text-red-400"><Trash2 size={18} /></button>
+                <button
+                  onClick={() => setExpandedId(expandedId === entry.id ? null : entry.id)}
+                  className="p-2 text-organic-400 hover:bg-organic-100 rounded-organic-sm transition-colors cursor-pointer"
+                >
+                  {expandedId === entry.id ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                </button>
+                <button
+                  onClick={() => onDelete(entry.id)}
+                  className="p-2 text-terracotta-400 hover:bg-terracotta-50 rounded-organic-sm transition-colors cursor-pointer"
+                >
+                  <Trash2 size={18} />
+                </button>
               </div>
             </div>
             {expandedId === entry.id && (
-              <div className="mt-4 text-sm grid gap-2">
-                <p><strong>Intensidad:</strong> {entry.intensidad}/10 | <strong>Ubicación:</strong> {entry.ubicacion || '-'}</p>
-                <p><strong>Comida:</strong> {entry.comida || '-'}</p>
-                <p><strong>Estrés:</strong> {entry.estres}/10 | <strong>Sueño:</strong> {entry.sueno_horas}h</p>
-                {customFields.map((cf, idx) => <p key={idx}><strong>{cf.name}:</strong> {entry[`customField${idx}Value`] || '-'}</p>)}
-                <p><strong>Medicación:</strong> {entry.medicacion || '-'}</p>
-                <p><strong>Notas:</strong> {entry.notas || '-'}</p>
+              <div className="mt-4 text-sm grid gap-2 bg-organic-50 p-4 rounded-organic">
+                <p className="font-body text-organic-700"><strong className="text-organic-800">Intensidad:</strong> {entry.intensidad}/10 | <strong className="text-organic-800">Ubicacion:</strong> {entry.ubicacion || '-'}</p>
+                <p className="font-body text-organic-700"><strong className="text-organic-800">Comida:</strong> {entry.comida || '-'}</p>
+                <p className="font-body text-organic-700"><strong className="text-organic-800">Estres:</strong> {entry.estres}/10 | <strong className="text-organic-800">Sueno:</strong> {entry.sueno_horas}h</p>
+                {customFields.map((cf, idx) => <p key={idx} className="font-body text-organic-700"><strong className="text-organic-800">{cf.name}:</strong> {entry[`customField${idx}Value`] || '-'}</p>)}
+                <p className="font-body text-organic-700"><strong className="text-organic-800">Medicacion:</strong> {entry.medicacion || '-'}</p>
+                <p className="font-body text-organic-700"><strong className="text-organic-800">Notas:</strong> {entry.notas || '-'}</p>
               </div>
             )}
           </div>

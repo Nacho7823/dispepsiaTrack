@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MessageSquare, BarChart3, Download, Settings, Activity } from 'lucide-react';
+import { MessageSquare, BarChart3, Download, Settings, Leaf } from 'lucide-react';
 import { fetchEntries, fetchSettings, fetchConversations } from './services/api';
 import { getActiveCustomFields } from './utils';
 import { useEntries } from './hooks/useEntries';
@@ -52,19 +52,26 @@ const App = () => {
   if (!isLoaded) return null;
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans text-slate-900">
+    <div className="min-h-screen bg-organic-50 flex flex-col md:flex-row font-body text-organic-900 organic-grain">
+      <div className="organic-blob w-96 h-96 bg-leaf-300 -top-48 -right-48" />
+      <div className="organic-blob w-64 h-64 bg-terracotta-200 bottom-20 -left-32" />
       {error && (
-        <div className="fixed top-4 right-4 bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-2 rounded-lg z-50">
+        <div className="fixed top-4 right-4 bg-terracotta-50 border border-terracotta-300 text-terracotta-700 px-5 py-3 rounded-organic z-50 shadow-organic">
           {error}
         </div>
       )}
-      <nav className="w-full md:w-64 bg-white border-b md:border-r border-slate-200 p-4 flex md:flex-col justify-between">
+      <nav className="w-full md:w-72 bg-white/90 backdrop-blur-sm border-b md:border-r border-organic-200 p-5 flex md:flex-col justify-between relative z-10">
         <div className="flex flex-col gap-6 w-full">
-          <div className="flex items-center gap-2 px-2 py-4">
-            <div className="bg-indigo-600 p-2 rounded-lg text-white"><Activity size={24} /></div>
-            <h1 className="font-bold text-xl tracking-tight">Dispepsia Tracker</h1>
+          <div className="flex items-center gap-3 px-3 py-5">
+            <div className="bg-leaf-700 p-2.5 rounded-organic text-white shadow-leaf">
+              <Leaf size={24} />
+            </div>
+            <div>
+              <h1 className="font-heading font-bold text-xl tracking-tight text-organic-900">Dispepsia</h1>
+              <p className="text-xs text-organic-400 font-body">Tracker</p>
+            </div>
           </div>
-          <div className="flex md:flex-col gap-1 w-full overflow-x-auto">
+          <div className="flex md:flex-col gap-1.5 w-full overflow-x-auto">
             {tabs.map(tab => (
               <NavButton key={tab.id} active={activeTab === tab.id} onClick={() => setActiveTab(tab.id)} icon={tab.icon} label={tab.label} />
             ))}
@@ -72,7 +79,7 @@ const App = () => {
         </div>
       </nav>
 
-      <main className="flex-1 overflow-hidden relative flex flex-col">
+      <main className="flex-1 overflow-hidden relative flex flex-col z-10">
         {activeTab === 'assistant' && (
           <AssistantScreen
             settings={settings}

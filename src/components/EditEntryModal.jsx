@@ -34,62 +34,123 @@ const EditEntryModal = ({ entry, onSave, onClose, customFields }) => {
   const updateField = (field, value) => setFormData({ ...formData, [field]: value });
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-        <div className="p-4 border-b flex justify-between items-center">
-          <h3 className="font-bold">Editar Registro</h3>
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-600"><X size={20} /></button>
+    <div className="fixed inset-0 bg-organic-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-organic-lg w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-organic-xl">
+        <div className="p-5 border-b border-organic-200 flex justify-between items-center">
+          <h3 className="font-heading font-bold text-lg text-organic-800">Editar Registro</h3>
+          <button onClick={onClose} className="text-organic-400 hover:text-organic-600 p-1.5 rounded-organic-sm hover:bg-organic-100 transition-colors cursor-pointer">
+            <X size={20} />
+          </button>
         </div>
-        <form onSubmit={handleSubmit} className="p-4 space-y-4">
+        <form onSubmit={handleSubmit} className="p-5 space-y-4">
           <div>
-            <label className="block text-sm text-slate-500 mb-1">Fecha y Hora</label>
-            <input type="datetime-local" value={formData.fecha} onChange={(e) => updateField('fecha', e.target.value)} className="w-full border p-2 rounded-xl text-sm" />
+            <label className="block text-sm text-organic-500 mb-1.5 font-medium">Fecha y Hora</label>
+            <input
+              type="datetime-local"
+              value={formData.fecha}
+              onChange={(e) => updateField('fecha', e.target.value)}
+              className="organic-input text-sm"
+            />
           </div>
           <div>
-            <label className="block text-sm text-slate-500 mb-1">Tipo de Síntoma (separados por coma)</label>
-            <input type="text" value={formData.sintoma_tipo} onChange={(e) => updateField('sintoma_tipo', e.target.value)} className="w-full border p-2 rounded-xl text-sm" placeholder="dolor, ardor, náuseas" />
+            <label className="block text-sm text-organic-500 mb-1.5 font-medium">Tipo de Sintoma (separados por coma)</label>
+            <input
+              type="text"
+              value={formData.sintoma_tipo}
+              onChange={(e) => updateField('sintoma_tipo', e.target.value)}
+              className="organic-input text-sm"
+              placeholder="dolor, ardor, nauseas"
+            />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm text-slate-500 mb-1">Intensidad (0-10)</label>
-              <input type="number" min="0" max="10" value={formData.intensidad} onChange={(e) => updateField('intensidad', parseInt(e.target.value) || 0)} className="w-full border p-2 rounded-xl text-sm" />
+              <label className="block text-sm text-organic-500 mb-1.5 font-medium">Intensidad (0-10)</label>
+              <input
+                type="number"
+                min="0"
+                max="10"
+                value={formData.intensidad}
+                onChange={(e) => updateField('intensidad', parseInt(e.target.value) || 0)}
+                className="organic-input text-sm"
+              />
             </div>
             <div>
-              <label className="block text-sm text-slate-500 mb-1">Estrés (0-10)</label>
-              <input type="number" min="0" max="10" value={formData.estres} onChange={(e) => updateField('estres', parseInt(e.target.value) || 0)} className="w-full border p-2 rounded-xl text-sm" />
+              <label className="block text-sm text-organic-500 mb-1.5 font-medium">Estres (0-10)</label>
+              <input
+                type="number"
+                min="0"
+                max="10"
+                value={formData.estres}
+                onChange={(e) => updateField('estres', parseInt(e.target.value) || 0)}
+                className="organic-input text-sm"
+              />
             </div>
           </div>
           <div>
-            <label className="block text-sm text-slate-500 mb-1">Ubicación</label>
-            <input type="text" value={formData.ubicacion} onChange={(e) => updateField('ubicacion', e.target.value)} className="w-full border p-2 rounded-xl text-sm" placeholder="ej: abdomen superior" />
+            <label className="block text-sm text-organic-500 mb-1.5 font-medium">Ubicacion</label>
+            <input
+              type="text"
+              value={formData.ubicacion}
+              onChange={(e) => updateField('ubicacion', e.target.value)}
+              className="organic-input text-sm"
+              placeholder="ej: abdomen superior"
+            />
           </div>
           <div>
-            <label className="block text-sm text-slate-500 mb-1">Comida</label>
-            <input type="text" value={formData.comida} onChange={(e) => updateField('comida', e.target.value)} className="w-full border p-2 rounded-xl text-sm" placeholder="¿Qué comiste?" />
+            <label className="block text-sm text-organic-500 mb-1.5 font-medium">Comida</label>
+            <input
+              type="text"
+              value={formData.comida}
+              onChange={(e) => updateField('comida', e.target.value)}
+              className="organic-input text-sm"
+              placeholder="Que comiste?"
+            />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm text-slate-500 mb-1">Horas de Sueño</label>
-              <input type="number" step="0.5" min="0" value={formData.sueno_horas} onChange={(e) => updateField('sueno_horas', parseFloat(e.target.value) || 0)} className="w-full border p-2 rounded-xl text-sm" />
+              <label className="block text-sm text-organic-500 mb-1.5 font-medium">Horas de Sueno</label>
+              <input
+                type="number"
+                step="0.5"
+                min="0"
+                value={formData.sueno_horas}
+                onChange={(e) => updateField('sueno_horas', parseFloat(e.target.value) || 0)}
+                className="organic-input text-sm"
+              />
             </div>
             <div>
-              <label className="block text-sm text-slate-500 mb-1">Medicación</label>
-              <input type="text" value={formData.medicacion} onChange={(e) => updateField('medicacion', e.target.value)} className="w-full border p-2 rounded-xl text-sm" />
+              <label className="block text-sm text-organic-500 mb-1.5 font-medium">Medicacion</label>
+              <input
+                type="text"
+                value={formData.medicacion}
+                onChange={(e) => updateField('medicacion', e.target.value)}
+                className="organic-input text-sm"
+              />
             </div>
           </div>
           {customFields.map((cf, idx) => (
             <div key={idx}>
-              <label className="block text-sm text-slate-500 mb-1">{cf.name}</label>
-              <input type="text" value={formData[`customField${idx}Value`]} onChange={(e) => updateField(`customField${idx}Value`, e.target.value)} className="w-full border p-2 rounded-xl text-sm" />
+              <label className="block text-sm text-organic-500 mb-1.5 font-medium">{cf.name}</label>
+              <input
+                type="text"
+                value={formData[`customField${idx}Value`]}
+                onChange={(e) => updateField(`customField${idx}Value`, e.target.value)}
+                className="organic-input text-sm"
+              />
             </div>
           ))}
           <div>
-            <label className="block text-sm text-slate-500 mb-1">Notas</label>
-            <textarea value={formData.notas} onChange={(e) => updateField('notas', e.target.value)} className="w-full border p-2 rounded-xl text-sm" rows={3} />
+            <label className="block text-sm text-organic-500 mb-1.5 font-medium">Notas</label>
+            <textarea
+              value={formData.notas}
+              onChange={(e) => updateField('notas', e.target.value)}
+              className="organic-input text-sm"
+              rows={3}
+            />
           </div>
-          <div className="flex gap-2 pt-2">
-            <button type="submit" className="flex-1 bg-indigo-600 text-white py-2 rounded-xl font-medium hover:bg-indigo-700">Guardar</button>
-            <button type="button" onClick={onClose} className="px-4 py-2 border rounded-xl hover:bg-slate-50">Cancelar</button>
+          <div className="flex gap-3 pt-3">
+            <button type="submit" className="flex-1 organic-btn-primary cursor-pointer">Guardar</button>
+            <button type="button" onClick={onClose} className="px-6 organic-btn-secondary cursor-pointer">Cancelar</button>
           </div>
         </form>
       </div>

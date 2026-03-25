@@ -13,13 +13,22 @@ const ExportScreen = ({ entries, customFields }) => {
   };
 
   return (
-    <div className="flex-1 p-8 max-w-4xl mx-auto w-full space-y-6">
+    <div className="flex-1 p-5 md:p-8 max-w-4xl mx-auto w-full space-y-6">
       <div className="flex gap-4">
-        <button onClick={handleCopy} className="flex-1 bg-indigo-600 text-white p-4 rounded-xl font-bold">
-          {copied ? '¡Copiado!' : 'Copiar Markdown'}
+        <button
+          onClick={handleCopy}
+          className={`flex-1 p-4 rounded-organic font-semibold text-lg transition-all duration-200 cursor-pointer ${
+            copied
+              ? 'bg-leaf-100 text-leaf-800 border-2 border-leaf-400'
+              : 'organic-btn-primary'
+          }`}
+        >
+          {copied ? 'Copiado' : 'Copiar Markdown'}
         </button>
       </div>
-      <div className="bg-slate-900 p-6 rounded-xl text-slate-300 font-mono text-xs overflow-auto h-96 whitespace-pre">{markdown}</div>
+      <div className="bg-organic-900 p-6 rounded-organic-lg text-organic-300 font-mono text-xs overflow-auto h-96 whitespace-pre border border-organic-700 shadow-organic-lg">
+        {markdown}
+      </div>
     </div>
   );
 };

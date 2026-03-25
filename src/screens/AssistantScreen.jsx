@@ -97,22 +97,42 @@ const AssistantScreen = ({ settings, onSave, conversations, activeConversation, 
         />
       </div>
 
-      <div className="flex-1 flex flex-col h-full max-w-4xl mx-auto w-full p-4 overflow-hidden">
-        <div className="md:hidden mb-2">
-          <button onClick={() => setShowConversations(!showConversations)} className="text-slate-500 p-2">
+      <div className="flex-1 flex flex-col h-full max-w-4xl mx-auto w-full p-5 overflow-hidden">
+        <div className="md:hidden mb-3">
+          <button onClick={() => setShowConversations(!showConversations)} className="text-organic-500 p-2 rounded-organic hover:bg-organic-100 transition-colors">
             {showConversations ? <X size={20} /> : <MessageSquare size={20} />}
           </button>
         </div>
         {error && (
-          <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded-lg text-sm">{error}</div>
+          <div className="mb-4 bg-terracotta-50 border border-terracotta-200 text-terracotta-700 px-5 py-3 rounded-organic text-sm shadow-organic-sm">{error}</div>
         )}
         <div className="flex-1 overflow-y-auto space-y-4 mb-4 pr-2" ref={scrollRef}>
           {messages.map((m, i) => <ChatMessage key={i} message={m} />)}
-          {isTyping && <div className="flex justify-start"><div className="bg-white border p-4 rounded-2xl flex gap-1 animate-pulse">...</div></div>}
+          {isTyping && (
+            <div className="flex justify-start">
+              <div className="bg-white/90 backdrop-blur-sm border border-organic-100 p-4 rounded-organic rounded-tl-sm flex gap-1.5 shadow-organic-sm">
+                <span className="w-2 h-2 bg-leaf-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                <span className="w-2 h-2 bg-leaf-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                <span className="w-2 h-2 bg-leaf-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+              </div>
+            </div>
+          )}
         </div>
-        <div className="bg-white p-4 rounded-2xl shadow-lg border flex gap-2">
-          <input type="text" value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSend()} placeholder="Escribe aquí..." className="flex-1 outline-none" />
-          <button onClick={handleSend} className="bg-indigo-600 text-white p-2 rounded-xl hover:bg-indigo-700"><Send size={20} /></button>
+        <div className="bg-white/90 backdrop-blur-sm p-4 rounded-organic-lg shadow-organic border border-organic-100 flex gap-3">
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+            placeholder="Escribe aquí..."
+            className="flex-1 outline-none bg-transparent text-organic-800 placeholder:text-organic-400 font-body"
+          />
+          <button
+            onClick={handleSend}
+            className="bg-leaf-700 text-white p-3 rounded-organic hover:bg-leaf-800 active:bg-leaf-900 transition-all duration-200 shadow-leaf cursor-pointer"
+          >
+            <Send size={20} />
+          </button>
         </div>
       </div>
     </div>
