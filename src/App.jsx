@@ -95,7 +95,7 @@ const App = () => {
           <HistoryScreen entries={entries} onDelete={deleteEntry} onUpdate={updateEntry} onAdd={addEntry} columns={settings.columns} />
         )}
         {activeTab === 'export' && (
-          <ExportScreen entries={entries} columns={settings.columns} />
+          <ExportScreen entries={entries} columns={settings.columns} conversations={conversationHooks.conversations} />
         )}
         {activeTab === 'settings' && (
           <SettingsScreen settings={settings} setSettings={setSettings} setEntries={clearAllEntries} />

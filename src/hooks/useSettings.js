@@ -53,9 +53,10 @@ export const useSettings = (initialSettings) => {
   const [settings, setSettings] = useState(migrateSettings(initialSettings || defaultSettings));
 
   const saveSettings = useCallback(async (newSettings) => {
-    setSettings(newSettings);
+    const migrated = migrateSettings(newSettings);
+    setSettings(migrated);
     try {
-      await saveSettingsApi(newSettings);
+      await saveSettingsApi(migrated);
     } catch (err) {
       console.error('Error saving settings:', err);
     }
