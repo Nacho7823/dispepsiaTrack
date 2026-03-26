@@ -39,13 +39,13 @@ const EntryTable = ({ entries, columns, onEdit, onDelete }) => (
                 <div className="flex gap-1.5">
                   <button
                     onClick={() => onEdit(entry)}
-                    className="p-2 text-leaf-600 hover:bg-leaf-50 rounded-organic-sm transition-colors cursor-pointer"
+                    className="p-2.5 text-leaf-600 hover:bg-leaf-50 rounded-organic-sm transition-colors cursor-pointer"
                   >
                     <Edit3 size={16} />
                   </button>
                   <button
                     onClick={() => onDelete(entry.id)}
-                    className="p-2 text-terracotta-400 hover:bg-terracotta-50 rounded-organic-sm transition-colors cursor-pointer"
+                    className="p-2.5 text-terracotta-400 hover:bg-terracotta-50 rounded-organic-sm transition-colors cursor-pointer"
                   >
                     <Trash2 size={16} />
                   </button>
@@ -70,26 +70,26 @@ const EntryList = ({ entries, columns, onEdit, onDelete }) => {
         {entries.map(entry => (
           <div key={entry.id} className="p-5 hover:bg-organic-50 transition-colors duration-150">
             <div className="flex justify-between items-center">
-              <div>
+              <div className="flex-1 min-w-0 mr-2">
                 <p className="text-xs text-organic-400 font-body">{formatDate(entry.fecha)}</p>
-                <p className="font-heading font-semibold text-organic-800 mt-0.5">{entry.sintoma_tipo?.join(', ') || 'Registro'}</p>
+                <p className="font-heading font-semibold text-organic-800 mt-0.5 truncate">{entry.sintoma_tipo?.join(', ') || 'Registro'}</p>
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-1">
                 <button
                   onClick={() => onEdit(entry)}
-                  className="p-2 text-leaf-600 hover:bg-leaf-50 rounded-organic-sm transition-colors cursor-pointer"
+                  className="p-2.5 text-leaf-600 hover:bg-leaf-50 rounded-organic-sm transition-colors cursor-pointer"
                 >
                   <Edit3 size={18} />
                 </button>
                 <button
                   onClick={() => setExpandedId(expandedId === entry.id ? null : entry.id)}
-                  className="p-2 text-organic-400 hover:bg-organic-100 rounded-organic-sm transition-colors cursor-pointer"
+                  className="p-2.5 text-organic-400 hover:bg-organic-100 rounded-organic-sm transition-colors cursor-pointer"
                 >
                   {expandedId === entry.id ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
                 </button>
                 <button
                   onClick={() => onDelete(entry.id)}
-                  className="p-2 text-terracotta-400 hover:bg-terracotta-50 rounded-organic-sm transition-colors cursor-pointer"
+                  className="p-2.5 text-terracotta-400 hover:bg-terracotta-50 rounded-organic-sm transition-colors cursor-pointer"
                 >
                   <Trash2 size={18} />
                 </button>

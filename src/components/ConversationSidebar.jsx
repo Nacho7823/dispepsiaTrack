@@ -3,7 +3,7 @@ import { Trash2, Plus } from 'lucide-react';
 import { formatShortDate } from '../utils/date';
 
 const ConversationSidebar = ({ conversations, activeConversation, onLoad, onNew, onDelete }) => (
-  <div className="w-72 bg-white/80 backdrop-blur-sm border-r border-organic-200 flex flex-col">
+  <div className="fixed md:relative inset-0 md:inset-auto w-full md:w-72 bg-white/80 backdrop-blur-sm border-r border-organic-200 flex flex-col z-40">
     <div className="p-4 border-b border-organic-100">
       <button
         onClick={onNew}
@@ -32,9 +32,9 @@ const ConversationSidebar = ({ conversations, activeConversation, onLoad, onNew,
             </div>
             <button
               onClick={(e) => { e.stopPropagation(); onDelete(conv.id); }}
-              className="text-terracotta-300 hover:text-terracotta-500 p-1.5 rounded-organic-sm hover:bg-terracotta-50 transition-colors cursor-pointer"
+              className="text-terracotta-300 hover:text-terracotta-500 p-2 rounded-organic-sm hover:bg-terracotta-50 transition-colors cursor-pointer"
             >
-              <Trash2 size={14} />
+              <Trash2 size={18} />
             </button>
           </div>
         </div>

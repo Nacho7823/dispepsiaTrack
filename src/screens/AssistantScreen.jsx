@@ -87,19 +87,22 @@ const AssistantScreen = ({ settings, onSave, conversations, activeConversation, 
 
   return (
     <div className="flex-1 flex h-full">
+      {showConversations && (
+        <div className="md:hidden fixed inset-0 bg-black/30 z-30" onClick={() => setShowConversations(false)} />
+      )}
       <div className={`${showConversations ? 'block' : 'hidden'} md:block`}>
         <ConversationSidebar
           conversations={conversations}
           activeConversation={activeConversation}
-          onLoad={onLoadConversation}
+          onLoad={(c) => { onLoadConversation(c); setShowConversations(false); }}
           onNew={onNewConversation}
           onDelete={onDeleteConversation}
         />
       </div>
 
-      <div className="flex-1 flex flex-col h-full max-w-4xl mx-auto w-full p-5 overflow-hidden">
+      <div className="flex-1 flex flex-col h-full max-w-4xl mx-auto w-full p-3 sm:p-5 overflow-hidden">
         <div className="md:hidden mb-3">
-          <button onClick={() => setShowConversations(!showConversations)} className="text-organic-500 p-2 rounded-organic hover:bg-organic-100 transition-colors">
+          <button onClick={() => setShowConversations(!showConversations)} className="text-organic-500 p-2.5 rounded-organic hover:bg-organic-100 transition-colors">
             {showConversations ? <X size={20} /> : <MessageSquare size={20} />}
           </button>
         </div>

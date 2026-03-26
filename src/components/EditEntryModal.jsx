@@ -42,7 +42,7 @@ const EditEntryModal = ({ entry, onSave, onClose, columns }) => {
       <div className="bg-white rounded-organic-lg w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-organic-xl">
         <div className="p-5 border-b border-organic-200 flex justify-between items-center">
           <h3 className="font-heading font-bold text-lg text-organic-800">{isCreate ? 'Nuevo Registro' : 'Editar Registro'}</h3>
-          <button onClick={onClose} className="text-organic-400 hover:text-organic-600 p-1.5 rounded-organic-sm hover:bg-organic-100 transition-colors cursor-pointer">
+          <button onClick={onClose} className="text-organic-400 hover:text-organic-600 p-2 rounded-organic-sm hover:bg-organic-100 transition-colors cursor-pointer">
             <X size={20} />
           </button>
         </div>
@@ -66,7 +66,7 @@ const EditEntryModal = ({ entry, onSave, onClose, columns }) => {
               placeholder="dolor, ardor, nauseas"
             />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm text-organic-500 mb-1.5 font-medium">Intensidad (0-10)</label>
               <input
@@ -110,7 +110,7 @@ const EditEntryModal = ({ entry, onSave, onClose, columns }) => {
               placeholder="Que comiste?"
             />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm text-organic-500 mb-1.5 font-medium">Horas de Sueno</label>
               <input

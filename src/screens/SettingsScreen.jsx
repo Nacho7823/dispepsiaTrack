@@ -147,7 +147,7 @@ const SettingsScreen = ({ settings, setSettings, setEntries }) => {
               type="checkbox"
               checked={col.visible}
               onChange={() => toggleColumnVisibility(i)}
-              className="w-4 h-4 text-leaf-600 rounded border-organic-300 focus:ring-leaf-400 cursor-pointer"
+              className="w-5 h-5 text-leaf-600 rounded border-organic-300 focus:ring-leaf-400 cursor-pointer shrink-0"
             />
             <input
               type="text"
@@ -159,9 +159,9 @@ const SettingsScreen = ({ settings, setSettings, setEntries }) => {
             {col.type === 'custom' ? (
               <button
                 onClick={() => removeCustomField(i)}
-                className="text-terracotta-400 hover:bg-terracotta-50 p-2 rounded-organic transition-colors cursor-pointer"
+                className="text-terracotta-400 hover:bg-terracotta-50 p-2.5 rounded-organic transition-colors cursor-pointer"
               >
-                <Trash2 size={16} />
+                <Trash2 size={18} />
               </button>
             ) : (
               <div className="w-8" />

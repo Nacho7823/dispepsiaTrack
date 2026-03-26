@@ -59,9 +59,9 @@ const App = () => {
           {error}
         </div>
       )}
-      <nav className="w-full md:w-72 bg-white/90 backdrop-blur-sm border-b md:border-r border-organic-200 p-5 flex md:flex-col justify-between relative z-10">
+      <nav className="w-full md:w-72 bg-white/90 backdrop-blur-sm border-b md:border-r border-organic-200 p-3 md:p-5 flex md:flex-col justify-between relative z-10">
         <div className="flex flex-col gap-6 w-full">
-          <div className="flex items-center gap-3 px-3 py-5">
+          <div className="hidden md:flex items-center gap-3 px-3 py-5">
             <div className="bg-leaf-700 p-2.5 rounded-organic text-white shadow-leaf">
               <Leaf size={24} />
             </div>
@@ -70,7 +70,7 @@ const App = () => {
               <p className="text-xs text-organic-400 font-body">Tracker</p>
             </div>
           </div>
-          <div className="flex md:flex-col gap-1.5 w-full overflow-x-auto">
+          <div className="flex md:flex-col gap-1.5 w-full overflow-x-auto md:justify-start justify-center">
             {tabs.map(tab => (
               <NavButton key={tab.id} active={activeTab === tab.id} onClick={() => setActiveTab(tab.id)} icon={tab.icon} label={tab.label} />
             ))}

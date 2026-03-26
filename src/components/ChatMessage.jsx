@@ -7,7 +7,7 @@ const ChatMessage = ({ message }) => (
         ? 'bg-leaf-700 text-white rounded-tr-sm shadow-leaf'
         : 'bg-white/90 backdrop-blur-sm border border-organic-100 text-organic-800 rounded-tl-sm shadow-organic-sm'
     }`}>
-      {message.content}
+      <span className="break-words whitespace-pre-wrap">{message.content}</span>
     </div>
   </div>
 );

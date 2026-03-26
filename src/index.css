@@ -68,24 +68,24 @@
   }
 
   .organic-input {
-    @apply w-full bg-organic-50 border border-organic-200 rounded-organic px-4 py-3 text-sm
+    @apply w-full bg-organic-50 border border-organic-200 rounded-organic px-4 py-3.5 text-sm
            placeholder:text-organic-400 focus:outline-none focus:ring-2 focus:ring-leaf-300
            focus:border-leaf-400 transition-all duration-200;
   }
 
   .organic-btn-primary {
-    @apply bg-leaf-700 text-white font-medium px-6 py-3 rounded-organic
+    @apply bg-leaf-700 text-white font-medium px-6 py-3.5 rounded-organic
            hover:bg-leaf-800 active:bg-leaf-900 transition-all duration-200
            shadow-leaf hover:shadow-organic-lg;
   }
 
   .organic-btn-secondary {
-    @apply bg-organic-100 text-organic-700 font-medium px-6 py-3 rounded-organic
+    @apply bg-organic-100 text-organic-700 font-medium px-6 py-3.5 rounded-organic
            hover:bg-organic-200 active:bg-organic-300 transition-all duration-200;
   }
 
   .organic-btn-terracotta {
-    @apply bg-terracotta-400 text-white font-medium px-6 py-3 rounded-organic
+    @apply bg-terracotta-400 text-white font-medium px-6 py-3.5 rounded-organic
            hover:bg-terracotta-500 active:bg-terracotta-600 transition-all duration-200
            shadow-earth;
   }
