@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { X } from 'lucide-react';
 
 const EditEntryModal = ({ entry, onSave, onClose, customFields }) => {
+  const isCreate = !entry;
+
   const initialFormData = {
-    fecha: entry?.fecha ? new Date(entry.fecha).toISOString().slice(0, 16) : '',
+    fecha: entry?.fecha ? new Date(entry.fecha).toISOString().slice(0, 16) : new Date().toISOString().slice(0, 16),
     sintoma_tipo: entry?.sintoma_tipo?.join(', ') || '',
     intensidad: entry?.intensidad || 5,
     ubicacion: entry?.ubicacion || '',
@@ -27,7 +29,7 @@ const EditEntryModal = ({ entry, onSave, onClose, customFields }) => {
       fecha: formData.fecha ? new Date(formData.fecha).toISOString() : new Date().toISOString(),
       sintoma_tipo: formData.sintoma_tipo.split(',').map(s => s.trim()).filter(s => s)
     };
-    onSave(entry.id, data);
+    onSave(entry?.id, data);
     onClose();
   };
 
@@ -37,7 +39,7 @@ const EditEntryModal = ({ entry, onSave, onClose, customFields }) => {
     <div className="fixed inset-0 bg-organic-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-organic-lg w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-organic-xl">
         <div className="p-5 border-b border-organic-200 flex justify-between items-center">
-          <h3 className="font-heading font-bold text-lg text-organic-800">Editar Registro</h3>
+          <h3 className="font-heading font-bold text-lg text-organic-800">{isCreate ? 'Nuevo Registro' : 'Editar Registro'}</h3>
           <button onClick={onClose} className="text-organic-400 hover:text-organic-600 p-1.5 rounded-organic-sm hover:bg-organic-100 transition-colors cursor-pointer">
             <X size={20} />
           </button>

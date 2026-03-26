@@ -1,12 +1,13 @@
 import React, { useState, useMemo } from 'react';
-import { Calendar } from 'lucide-react';
+import { Calendar, Plus } from 'lucide-react';
 import { formatDate } from '../utils/date';
 import EditEntryModal from '../components/EditEntryModal';
 import EntryChart from '../components/EntryChart';
 import { EntryTable, EntryList } from '../components/EntryTable';
 
-const HistoryScreen = ({ entries, onDelete, onUpdate, customFields, columns }) => {
+const HistoryScreen = ({ entries, onDelete, onUpdate, onAdd, customFields, columns }) => {
   const [editingEntry, setEditingEntry] = useState(null);
+  const [showAddModal, setShowAddModal] = useState(false);
   const [chartType, setChartType] = useState('line');
   const [chartMetric, setChartMetric] = useState('intensidad');
   const [showTable, setShowTable] = useState(false);
@@ -38,6 +39,12 @@ const HistoryScreen = ({ entries, onDelete, onUpdate, customFields, columns }) =
         <Calendar size={48} className="mb-4 opacity-30" />
         <p className="font-body text-lg">Sin registros.</p>
         <p className="text-sm text-organic-300 mt-1">Tus datos aparecerán aquí</p>
+        <button onClick={() => setShowAddModal(true)} className="organic-btn-primary text-sm mt-4 flex items-center gap-2">
+          <Plus size={16} /> Agregar Fila
+        </button>
+        {showAddModal && (
+          <EditEntryModal onSave={(id, data) => { onAdd(data); setShowAddModal(false); }} onClose={() => setShowAddModal(false)} customFields={customFields} />
+        )}
       </div>
     );
   }
@@ -53,7 +60,10 @@ const HistoryScreen = ({ entries, onDelete, onUpdate, customFields, columns }) =
         customFields={customFields}
       />
 
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-2">
+        <button onClick={() => setShowAddModal(true)} className="organic-btn-primary text-sm flex items-center gap-2">
+          <Plus size={16} /> Agregar Fila
+        </button>
         <button onClick={() => setShowTable(!showTable)} className="organic-btn-secondary text-sm">
           {showTable ? 'Ver Lista' : 'Ver Tabla'}
         </button>
@@ -67,6 +77,10 @@ const HistoryScreen = ({ entries, onDelete, onUpdate, customFields, columns }) =
 
       {editingEntry && (
         <EditEntryModal entry={editingEntry} onSave={onUpdate} onClose={() => setEditingEntry(null)} customFields={customFields} />
+      )}
+
+      {showAddModal && (
+        <EditEntryModal onSave={(id, data) => { onAdd(data); setShowAddModal(false); }} onClose={() => setShowAddModal(false)} customFields={customFields} />
       )}
     </div>
   );

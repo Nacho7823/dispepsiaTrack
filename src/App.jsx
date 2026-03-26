@@ -93,7 +93,7 @@ const App = () => {
           />
         )}
         {activeTab === 'history' && (
-          <HistoryScreen entries={entries} onDelete={deleteEntry} onUpdate={updateEntry} customFields={getActiveCustomFields(settings.customFields)} columns={settings.columns} />
+          <HistoryScreen entries={entries} onDelete={deleteEntry} onUpdate={updateEntry} onAdd={addEntry} customFields={getActiveCustomFields(settings.customFields)} columns={settings.columns} />
         )}
         {activeTab === 'export' && (
           <ExportScreen entries={entries} customFields={getActiveCustomFields(settings.customFields)} />

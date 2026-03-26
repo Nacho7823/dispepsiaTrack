@@ -1,4 +1,4 @@
-export const API_URL = 'http://localhost:5001/api';
+export const API_URL = '/api';
 
 export const DEFAULT_API_URL = "https://api.openai.com/v1/chat/completions";
 export const DEFAULT_MODEL = "gpt-3.5-turbo";
