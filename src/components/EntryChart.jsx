@@ -59,7 +59,8 @@ const chartTypeButtons = [
   { type: 'scatter', icon: Circle },
 ];
 
-const EntryChart = ({ data, chartType, chartMetric, onChartTypeChange, onChartMetricChange, customFields }) => {
+const EntryChart = ({ data, chartType, chartMetric, onChartTypeChange, onChartMetricChange, columns }) => {
+  const customFieldCols = (columns || []).filter(c => c.type === 'custom');
   const mappedData = data.map(d => ({
     ...d,
     value: chartMetric === 'sueno' ? d.sueno : d[chartMetric]
@@ -92,7 +93,7 @@ const EntryChart = ({ data, chartType, chartMetric, onChartTypeChange, onChartMe
           <option value="intensidad">Intensidad</option>
           <option value="estres">Estres</option>
           <option value="sueno">Horas de Sueno</option>
-          {customFields.map((cf, idx) => <option key={idx} value={`customField${idx}Value`}>{cf.name}</option>)}
+          {customFieldCols.map(col => <option key={col.key} value={`customField${col.dataIndex}Value`}>{col.label || `Campo ${col.dataIndex + 1}`}</option>)}
         </select>
       </div>
       {(chartComponents[chartType] || chartComponents.line)(mappedData, domain)}

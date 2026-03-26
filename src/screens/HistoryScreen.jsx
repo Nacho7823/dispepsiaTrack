@@ -5,7 +5,7 @@ import EditEntryModal from '../components/EditEntryModal';
 import EntryChart from '../components/EntryChart';
 import { EntryTable, EntryList } from '../components/EntryTable';
 
-const HistoryScreen = ({ entries, onDelete, onUpdate, onAdd, customFields, columns }) => {
+const HistoryScreen = ({ entries, onDelete, onUpdate, onAdd, columns }) => {
   const [editingEntry, setEditingEntry] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [chartType, setChartType] = useState('line');
@@ -43,7 +43,7 @@ const HistoryScreen = ({ entries, onDelete, onUpdate, onAdd, customFields, colum
           <Plus size={16} /> Agregar Fila
         </button>
         {showAddModal && (
-          <EditEntryModal onSave={(id, data) => { onAdd(data); setShowAddModal(false); }} onClose={() => setShowAddModal(false)} customFields={customFields} />
+          <EditEntryModal onSave={(id, data) => { onAdd(data); setShowAddModal(false); }} onClose={() => setShowAddModal(false)} columns={columns} />
         )}
       </div>
     );
@@ -57,7 +57,7 @@ const HistoryScreen = ({ entries, onDelete, onUpdate, onAdd, customFields, colum
         chartMetric={chartMetric}
         onChartTypeChange={setChartType}
         onChartMetricChange={setChartMetric}
-        customFields={customFields}
+        columns={columns}
       />
 
       <div className="flex justify-end gap-2">
@@ -70,17 +70,17 @@ const HistoryScreen = ({ entries, onDelete, onUpdate, onAdd, customFields, colum
       </div>
 
       {showTable ? (
-        <EntryTable entries={displayEntries} columns={activeColumns} customFields={customFields} onEdit={setEditingEntry} onDelete={onDelete} />
+        <EntryTable entries={displayEntries} columns={activeColumns} onEdit={setEditingEntry} onDelete={onDelete} />
       ) : (
-        <EntryList entries={displayEntries} customFields={customFields} onEdit={setEditingEntry} onDelete={onDelete} />
+        <EntryList entries={displayEntries} columns={columns} onEdit={setEditingEntry} onDelete={onDelete} />
       )}
 
       {editingEntry && (
-        <EditEntryModal entry={editingEntry} onSave={onUpdate} onClose={() => setEditingEntry(null)} customFields={customFields} />
+        <EditEntryModal entry={editingEntry} onSave={onUpdate} onClose={() => setEditingEntry(null)} columns={columns} />
       )}
 
       {showAddModal && (
-        <EditEntryModal onSave={(id, data) => { onAdd(data); setShowAddModal(false); }} onClose={() => setShowAddModal(false)} customFields={customFields} />
+        <EditEntryModal onSave={(id, data) => { onAdd(data); setShowAddModal(false); }} onClose={() => setShowAddModal(false)} columns={columns} />
       )}
     </div>
   );

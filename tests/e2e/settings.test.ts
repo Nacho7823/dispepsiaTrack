@@ -74,10 +74,10 @@ describe("Pantalla de ajustes", () => {
   });
 
   test("agrega un campo personalizado", async () => {
-    await stagehand.act({ action: "click the 'Agregar Campo' button in the Campos Personalizados section" });
+    await stagehand.act({ action: "click the 'Agregar Campo Personalizado' button in the Campos de la Tabla section" });
 
     const result = await stagehand.extract({
-      instruction: "how many custom field input fields are now visible in the Campos Personalizados section?",
+      instruction: "how many custom field input fields are now visible in the Campos de la Tabla section?",
       schema: z.object({
         count: z.number(),
       }),
@@ -87,11 +87,11 @@ describe("Pantalla de ajustes", () => {
   });
 
   test("edita un campo personalizado", async () => {
-    await stagehand.act({ action: "click the 'Agregar Campo' button" });
+    await stagehand.act({ action: "click the 'Agregar Campo Personalizado' button" });
     await stagehand.act({ action: "type 'Ejercicio' in the new custom field input" });
 
     const result = await stagehand.extract({
-      instruction: "what value is in the first custom field input?",
+      instruction: "what value is in the custom field input?",
       schema: z.object({
         value: z.string(),
       }),
@@ -101,13 +101,13 @@ describe("Pantalla de ajustes", () => {
   });
 
   test("elimina un campo personalizado", async () => {
-    await stagehand.act({ action: "click the 'Agregar Campo' button" });
+    await stagehand.act({ action: "click the 'Agregar Campo Personalizado' button" });
     await stagehand.act({ action: "type 'Temporal' in the custom field input" });
 
-    await stagehand.act({ action: "click the X remove button next to the custom field" });
+    await stagehand.act({ action: "click the trash remove button next to the custom field" });
 
     const result = await stagehand.extract({
-      instruction: "how many custom field inputs remain in the Campos Personalizados section?",
+      instruction: "how many custom field inputs remain in the Campos de la Tabla section?",
       schema: z.object({
         count: z.number(),
       }),
@@ -116,29 +116,29 @@ describe("Pantalla de ajustes", () => {
     expect(result.count).toBe(0);
   });
 
-  test("muestra seccion de columnas de la tabla", async () => {
+  test("muestra seccion unificada de campos de la tabla", async () => {
     const result = await stagehand.extract({
-      instruction: "is there a 'Columnas de la Tabla' section? How many column rows are visible?",
+      instruction: "is there a 'Campos de la Tabla' section? How many field rows are visible?",
       schema: z.object({
-        hasColumnSection: z.boolean(),
-        columnCount: z.number(),
+        hasSection: z.boolean(),
+        fieldCount: z.number(),
       }),
     });
 
-    expect(result.hasColumnSection).toBe(true);
-    expect(result.columnCount).toBeGreaterThan(0);
+    expect(result.hasSection).toBe(true);
+    expect(result.fieldCount).toBeGreaterThan(0);
   });
 
-  test("agrega una columna a la tabla", async () => {
+  test("agrega un campo personalizado a la lista", async () => {
     const before = await stagehand.extract({
-      instruction: "how many column rows are in the Columnas de la Tabla section?",
+      instruction: "how many field rows are in the Campos de la Tabla section?",
       schema: z.object({ count: z.number() }),
     });
 
-    await stagehand.act({ action: "click the 'Agregar Columna' button" });
+    await stagehand.act({ action: "click the 'Agregar Campo Personalizado' button" });
 
     const after = await stagehand.extract({
-      instruction: "how many column rows are in the Columnas de la Tabla section now?",
+      instruction: "how many field rows are in the Campos de la Tabla section now?",
       schema: z.object({ count: z.number() }),
     });
 

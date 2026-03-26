@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Edit3, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
 import { formatDate } from '../utils/date';
 
-const getCellValue = (entry, col, customFields) => {
+const getCellValue = (entry, col) => {
   if (col.key === 'fecha') return formatDate(entry.fecha);
   if (col.key === 'sintoma_tipo') return entry.sintoma_tipo?.join(', ') || '-';
   if (col.key === 'intensidad') return `${entry.intensidad}/10`;
@@ -12,14 +12,10 @@ const getCellValue = (entry, col, customFields) => {
   if (col.key === 'sueno_horas') return `${entry.sueno_horas}h`;
   if (col.key === 'medicacion') return entry.medicacion || '-';
   if (col.key === 'notas') return entry.notas || '-';
-  if (col.key === 'customFields') {
-    return customFields.map((cf, idx) => entry[`customField${idx}Value`] || '-').join(', ');
-  }
-  if (col.key.startsWith('col_')) return entry[col.key] || '-';
-  return '-';
+  return entry[col.key] || '-';
 };
 
-const EntryTable = ({ entries, columns, customFields, onEdit, onDelete }) => (
+const EntryTable = ({ entries, columns, onEdit, onDelete }) => (
   <section className="organic-card overflow-hidden">
     <div className="overflow-x-auto">
       <table className="w-full text-sm font-body">
@@ -36,7 +32,7 @@ const EntryTable = ({ entries, columns, customFields, onEdit, onDelete }) => (
             <tr key={entry.id} className="hover:bg-organic-50 transition-colors duration-150">
               {columns.map((col, idx) => (
                 <td key={idx} className="px-5 py-3.5 text-organic-700 whitespace-nowrap">
-                  {getCellValue(entry, col, customFields)}
+                  {getCellValue(entry, col)}
                 </td>
               ))}
               <td className="px-5 py-3.5">
@@ -63,8 +59,9 @@ const EntryTable = ({ entries, columns, customFields, onEdit, onDelete }) => (
   </section>
 );
 
-const EntryList = ({ entries, customFields, onEdit, onDelete }) => {
+const EntryList = ({ entries, columns, onEdit, onDelete }) => {
   const [expandedId, setExpandedId] = useState(null);
+  const customFieldCols = (columns || []).filter(c => c.type === 'custom');
 
   return (
     <section className="organic-card overflow-hidden">
@@ -103,7 +100,7 @@ const EntryList = ({ entries, customFields, onEdit, onDelete }) => {
                 <p className="font-body text-organic-700"><strong className="text-organic-800">Intensidad:</strong> {entry.intensidad}/10 | <strong className="text-organic-800">Ubicacion:</strong> {entry.ubicacion || '-'}</p>
                 <p className="font-body text-organic-700"><strong className="text-organic-800">Comida:</strong> {entry.comida || '-'}</p>
                 <p className="font-body text-organic-700"><strong className="text-organic-800">Estres:</strong> {entry.estres}/10 | <strong className="text-organic-800">Sueno:</strong> {entry.sueno_horas}h</p>
-                {customFields.map((cf, idx) => <p key={idx} className="font-body text-organic-700"><strong className="text-organic-800">{cf.name}:</strong> {entry[`customField${idx}Value`] || '-'}</p>)}
+                {customFieldCols.map(col => <p key={col.key} className="font-body text-organic-700"><strong className="text-organic-800">{col.label || `Campo ${col.dataIndex + 1}`}:</strong> {entry[`customField${col.dataIndex}Value`] || '-'}</p>)}
                 <p className="font-body text-organic-700"><strong className="text-organic-800">Medicacion:</strong> {entry.medicacion || '-'}</p>
                 <p className="font-body text-organic-700"><strong className="text-organic-800">Notas:</strong> {entry.notas || '-'}</p>
               </div>

@@ -2,9 +2,9 @@ import React, { useState, useMemo } from 'react';
 import { generateMarkdown } from '../utils/markdown';
 import { copyToClipboard } from '../utils/clipboard';
 
-const ExportScreen = ({ entries, customFields }) => {
+const ExportScreen = ({ entries, columns }) => {
   const [copied, setCopied] = useState(false);
-  const markdown = useMemo(() => generateMarkdown(entries, customFields), [entries, customFields]);
+  const markdown = useMemo(() => generateMarkdown(entries, columns), [entries, columns]);
 
   const handleCopy = async () => {
     await copyToClipboard(markdown);

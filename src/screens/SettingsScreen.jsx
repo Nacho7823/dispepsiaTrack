@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, X, Trash2 } from 'lucide-react';
+import { Plus, Trash2 } from 'lucide-react';
 import { DEFAULT_COLUMNS } from '../constants';
 import { fetchModels } from '../services/api';
 
@@ -10,43 +10,49 @@ const SettingsScreen = ({ settings, setSettings, setEntries }) => {
 
   const updateSettings = (partial) => setSettings({ ...settings, ...partial });
 
+  const getColumns = () => {
+    const cols = settings.columns || DEFAULT_COLUMNS;
+    return cols.map(c => ({ type: 'builtin', ...c }));
+  };
+
   const addCustomField = () => {
-    updateSettings({ customFields: [...(settings.customFields || []), { name: '' }] });
+    const newFields = [...(settings.customFields || []), { name: '' }];
+    const cols = getColumns();
+    const dataIndex = newFields.length - 1;
+    const newCol = { key: `customField${dataIndex}Value`, label: '', visible: true, type: 'custom', dataIndex };
+    updateSettings({ customFields: newFields, columns: [...cols, newCol] });
   };
 
-  const removeCustomField = (index) => {
+  const removeCustomField = (colIndex) => {
+    const cols = getColumns();
+    const col = cols[colIndex];
     const newFields = [...(settings.customFields || [])];
-    newFields.splice(index, 1);
-    updateSettings({ customFields: newFields });
-  };
-
-  const updateCustomField = (index, value) => {
-    const newFields = [...(settings.customFields || [])];
-    newFields[index] = { name: value };
-    updateSettings({ customFields: newFields });
-  };
-
-  const addColumn = () => {
-    const newCol = { key: `col_${Date.now()}`, label: 'Nueva Columna', visible: true };
-    updateSettings({ columns: [...(settings.columns || DEFAULT_COLUMNS), newCol] });
-  };
-
-  const removeColumn = (index) => {
-    const newCols = [...(settings.columns || DEFAULT_COLUMNS)];
-    newCols.splice(index, 1);
-    updateSettings({ columns: newCols });
-  };
-
-  const toggleColumnVisibility = (index) => {
-    const newCols = [...(settings.columns || DEFAULT_COLUMNS)];
-    newCols[index] = { ...newCols[index], visible: !newCols[index].visible };
-    updateSettings({ columns: newCols });
+    if (col.dataIndex !== undefined) {
+      newFields.splice(col.dataIndex, 1);
+    }
+    const newCols = cols.filter((_, i) => i !== colIndex);
+    updateSettings({ customFields: newFields, columns: newCols });
   };
 
   const updateColumnLabel = (index, value) => {
-    const newCols = [...(settings.columns || DEFAULT_COLUMNS)];
-    newCols[index] = { ...newCols[index], label: value };
-    updateSettings({ columns: newCols });
+    const cols = getColumns();
+    const col = cols[index];
+    cols[index] = { ...cols[index], label: value };
+    const updates = { columns: cols };
+    if (col.type === 'custom' && col.dataIndex !== undefined) {
+      const newFields = [...(settings.customFields || [])];
+      if (newFields[col.dataIndex]) {
+        newFields[col.dataIndex] = { name: value };
+        updates.customFields = newFields;
+      }
+    }
+    updateSettings(updates);
+  };
+
+  const toggleColumnVisibility = (index) => {
+    const cols = getColumns();
+    cols[index] = { ...cols[index], visible: !cols[index].visible };
+    updateSettings({ columns: cols });
   };
 
   const handleFetchModels = async () => {
@@ -133,38 +139,10 @@ const SettingsScreen = ({ settings, setSettings, setEntries }) => {
       </section>
 
       <section className="organic-card p-6 space-y-4">
-        <h3 className="font-heading font-bold text-lg text-organic-800">Campos Personalizados</h3>
-        <p className="text-xs text-organic-400">Agrega campos adicionales para tracking</p>
-        {(settings.customFields || []).map((field, i) => (
-          <div key={i} className="flex gap-2">
-            <input
-              type="text"
-              value={field?.name || ''}
-              onChange={(e) => updateCustomField(i, e.target.value)}
-              className="flex-1 organic-input text-sm"
-              placeholder={`Campo ${i + 1} (ej: Ejercicio, Agua)`}
-            />
-            <button
-              onClick={() => removeCustomField(i)}
-              className="text-terracotta-400 hover:bg-terracotta-50 p-2 rounded-organic transition-colors cursor-pointer"
-            >
-              <X size={18} />
-            </button>
-          </div>
-        ))}
-        <button
-          onClick={addCustomField}
-          className="text-leaf-700 text-sm font-medium flex items-center gap-1.5 hover:text-leaf-800 cursor-pointer"
-        >
-          <Plus size={16} /> Agregar Campo
-        </button>
-      </section>
-
-      <section className="organic-card p-6 space-y-4">
-        <h3 className="font-heading font-bold text-lg text-organic-800">Columnas de la Tabla</h3>
-        <p className="text-xs text-organic-400">Configura que columnas mostrar en el historial</p>
-        {(settings.columns || DEFAULT_COLUMNS).map((col, i) => (
-          <div key={i} className="flex gap-2 items-center">
+        <h3 className="font-heading font-bold text-lg text-organic-800">Campos de la Tabla</h3>
+        <p className="text-xs text-organic-400">Configura qué campos registrar y mostrar en el historial</p>
+        {getColumns().map((col, i) => (
+          <div key={col.key} className="flex gap-2 items-center">
             <input
               type="checkbox"
               checked={col.visible}
@@ -176,20 +154,25 @@ const SettingsScreen = ({ settings, setSettings, setEntries }) => {
               value={col.label}
               onChange={(e) => updateColumnLabel(i, e.target.value)}
               className="flex-1 organic-input text-sm"
+              placeholder={col.type === 'custom' ? 'Nombre del campo' : col.key}
             />
-            <button
-              onClick={() => removeColumn(i)}
-              className="text-terracotta-400 hover:bg-terracotta-50 p-2 rounded-organic transition-colors cursor-pointer"
-            >
-              <Trash2 size={16} />
-            </button>
+            {col.type === 'custom' ? (
+              <button
+                onClick={() => removeCustomField(i)}
+                className="text-terracotta-400 hover:bg-terracotta-50 p-2 rounded-organic transition-colors cursor-pointer"
+              >
+                <Trash2 size={16} />
+              </button>
+            ) : (
+              <div className="w-8" />
+            )}
           </div>
         ))}
         <button
-          onClick={addColumn}
+          onClick={addCustomField}
           className="text-leaf-700 text-sm font-medium flex items-center gap-1.5 hover:text-leaf-800 cursor-pointer"
         >
-          <Plus size={16} /> Agregar Columna
+          <Plus size={16} /> Agregar Campo Personalizado
         </button>
       </section>
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MessageSquare, BarChart3, Download, Settings, Leaf } from 'lucide-react';
 import { fetchEntries, fetchSettings, fetchConversations } from './services/api';
-import { getActiveCustomFields } from './utils';
 import { useEntries } from './hooks/useEntries';
 import { useConversations } from './hooks/useConversations';
 import { useSettings } from './hooks/useSettings';
@@ -93,10 +92,10 @@ const App = () => {
           />
         )}
         {activeTab === 'history' && (
-          <HistoryScreen entries={entries} onDelete={deleteEntry} onUpdate={updateEntry} onAdd={addEntry} customFields={getActiveCustomFields(settings.customFields)} columns={settings.columns} />
+          <HistoryScreen entries={entries} onDelete={deleteEntry} onUpdate={updateEntry} onAdd={addEntry} columns={settings.columns} />
         )}
         {activeTab === 'export' && (
-          <ExportScreen entries={entries} customFields={getActiveCustomFields(settings.customFields)} />
+          <ExportScreen entries={entries} columns={settings.columns} />
         )}
         {activeTab === 'settings' && (
           <SettingsScreen settings={settings} setSettings={setSettings} setEntries={clearAllEntries} />

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 
-const EditEntryModal = ({ entry, onSave, onClose, customFields }) => {
+const EditEntryModal = ({ entry, onSave, onClose, columns }) => {
   const isCreate = !entry;
+  const customFieldCols = (columns || []).filter(c => c.type === 'custom');
 
   const initialFormData = {
     fecha: entry?.fecha ? new Date(entry.fecha).toISOString().slice(0, 16) : new Date().toISOString().slice(0, 16),
@@ -16,8 +17,9 @@ const EditEntryModal = ({ entry, onSave, onClose, customFields }) => {
     notas: entry?.notas || ''
   };
 
-  (customFields || []).forEach((cf, idx) => {
-    initialFormData[`customField${idx}Value`] = entry?.[`customField${idx}Value`] || '';
+  customFieldCols.forEach(col => {
+    const key = `customField${col.dataIndex}Value`;
+    initialFormData[key] = entry?.[key] || '';
   });
 
   const [formData, setFormData] = useState(initialFormData);
@@ -130,17 +132,20 @@ const EditEntryModal = ({ entry, onSave, onClose, customFields }) => {
               />
             </div>
           </div>
-          {customFields.map((cf, idx) => (
-            <div key={idx}>
-              <label className="block text-sm text-organic-500 mb-1.5 font-medium">{cf.name}</label>
-              <input
-                type="text"
-                value={formData[`customField${idx}Value`]}
-                onChange={(e) => updateField(`customField${idx}Value`, e.target.value)}
-                className="organic-input text-sm"
-              />
-            </div>
-          ))}
+          {customFieldCols.map(col => {
+            const key = `customField${col.dataIndex}Value`;
+            return (
+              <div key={col.key}>
+                <label className="block text-sm text-organic-500 mb-1.5 font-medium">{col.label || `Campo ${col.dataIndex + 1}`}</label>
+                <input
+                  type="text"
+                  value={formData[key]}
+                  onChange={(e) => updateField(key, e.target.value)}
+                  className="organic-input text-sm"
+                />
+              </div>
+            );
+          })}
           <div>
             <label className="block text-sm text-organic-500 mb-1.5 font-medium">Notas</label>
             <textarea
