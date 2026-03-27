@@ -12,8 +12,28 @@ import SettingsScreen from './screens/SettingsScreen';
 
 const App = () => {
   const [activeTab, setActiveTab] = useState('assistant');
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() => {
+    try {
+      const saved = localStorage.getItem('sidebarCollapsed');
+      return saved ? JSON.parse(saved) : false;
+    } catch {
+      return false;
+    }
+  });
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(null);
+
+  const toggleSidebar = () => {
+    setIsSidebarCollapsed(prev => {
+      const newValue = !prev;
+      try {
+        localStorage.setItem('sidebarCollapsed', JSON.stringify(newValue));
+      } catch (error) {
+        console.warn('No se pudo guardar estado del sidebar:', error);
+      }
+      return newValue;
+    });
+  };
 
   const { entries, setEntries, addEntry, updateEntry, deleteEntry, clearAllEntries } = useEntries();
   const { settings, setSettings } = useSettings();
@@ -91,6 +111,8 @@ const App = () => {
             onUpdateConversation={conversationHooks.updateConversation}
             onDeleteConversation={conversationHooks.deleteConversation}
             onCloseConversation={() => conversationHooks.setActiveConversationId(null)}
+            isSidebarCollapsed={isSidebarCollapsed}
+            onToggleSidebar={toggleSidebar}
           />
         )}
         {activeTab === 'history' && (
