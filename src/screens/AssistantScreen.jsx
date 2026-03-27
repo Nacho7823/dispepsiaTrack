@@ -5,7 +5,7 @@ import { buildSystemPrompt } from '../utils/schema';
 import ChatMessage from '../components/ChatMessage';
 import ConversationSidebar from '../components/ConversationSidebar';
 
-const AssistantScreen = ({ settings, onSave, conversations, activeConversation, onLoadConversation, onNewConversation, onUpdateConversation, onDeleteConversation, onCloseConversation }) => {
+const AssistantScreen = ({ settings, onSave, conversations, activeConversation, onLoadConversation, onNewConversation, onUpdateConversation, onDeleteConversation, onCloseConversation, isSidebarCollapsed, onToggleSidebar }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -90,7 +90,7 @@ const AssistantScreen = ({ settings, onSave, conversations, activeConversation, 
       {showConversations && (
         <div className="md:hidden fixed inset-0 bg-black/30 z-30" onClick={() => setShowConversations(false)} />
       )}
-      <div className={`${showConversations ? 'block' : 'hidden'} md:block md:w-72 shrink-0`}>
+      <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isSidebarCollapsed ? 'w-0' : 'md:w-72'} shrink-0 ${showConversations ? 'block' : 'hidden md:block'}`}>
         <ConversationSidebar
           conversations={conversations}
           activeConversation={activeConversation}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MessageSquare, BarChart3, Download, Settings, Leaf } from 'lucide-react';
+import { MessageSquare, BarChart3, Download, Settings, Leaf, X } from 'lucide-react';
 import { fetchEntries, fetchSettings, fetchConversations } from './services/api';
 import { useEntries } from './hooks/useEntries';
 import { useConversations } from './hooks/useConversations';
@@ -96,6 +96,13 @@ const App = () => {
               <NavButton key={tab.id} active={activeTab === tab.id} onClick={() => setActiveTab(tab.id)} icon={tab.icon} label={tab.label} />
             ))}
           </div>
+          <button
+            onClick={toggleSidebar}
+            className="text-organic-500 p-3 rounded-organic hover:bg-organic-100 transition-colors hidden md:flex"
+            title={isSidebarCollapsed ? "Mostrar conversaciones" : "Ocultar conversaciones"}
+          >
+            {isSidebarCollapsed ? <MessageSquare size={20} /> : <X size={20} />}
+          </button>
         </div>
       </nav>
 
