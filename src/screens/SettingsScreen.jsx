@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Plus, Trash2 } from 'lucide-react';
-import { DEFAULT_COLUMNS } from '../constants';
+import { DEFAULT_COLUMNS, DEFAULT_SYSTEM_PROMPT } from '../constants';
 import { fetchModels } from '../services/api';
 
 const SettingsScreen = ({ settings, setSettings, setEntries }) => {
@@ -184,6 +184,12 @@ const SettingsScreen = ({ settings, setSettings, setEntries }) => {
           onChange={(e) => updateSettings({ systemPrompt: e.target.value })}
           className="organic-input font-mono text-xs"
         />
+        <button
+          onClick={() => updateSettings({ systemPrompt: DEFAULT_SYSTEM_PROMPT })}
+          className="text-leaf-700 text-sm font-medium hover:text-leaf-800 cursor-pointer"
+        >
+          Reiniciar a valor por defecto
+        </button>
       </section>
 
       <button

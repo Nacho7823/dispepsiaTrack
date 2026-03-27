@@ -5,7 +5,7 @@ import { buildSystemPrompt } from '../utils/schema';
 import ChatMessage from '../components/ChatMessage';
 import ConversationSidebar from '../components/ConversationSidebar';
 
-const AssistantScreen = ({ settings, onSave, conversations, activeConversation, onLoadConversation, onNewConversation, onUpdateConversation, onDeleteConversation }) => {
+const AssistantScreen = ({ settings, onSave, conversations, activeConversation, onLoadConversation, onNewConversation, onUpdateConversation, onDeleteConversation, onCloseConversation }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -86,11 +86,11 @@ const AssistantScreen = ({ settings, onSave, conversations, activeConversation, 
   };
 
   return (
-    <div className="flex-1 flex h-full">
+    <div className="flex-1 flex h-full overflow-hidden max-w-full">
       {showConversations && (
         <div className="md:hidden fixed inset-0 bg-black/30 z-30" onClick={() => setShowConversations(false)} />
       )}
-      <div className={`${showConversations ? 'block' : 'hidden'} md:block`}>
+      <div className={`${showConversations ? 'block' : 'hidden'} md:block md:w-72 shrink-0`}>
         <ConversationSidebar
           conversations={conversations}
           activeConversation={activeConversation}
@@ -100,16 +100,31 @@ const AssistantScreen = ({ settings, onSave, conversations, activeConversation, 
         />
       </div>
 
-      <div className="flex-1 flex flex-col h-full max-w-4xl mx-auto w-full p-3 sm:p-5 overflow-hidden">
-        <div className="md:hidden mb-3">
-          <button onClick={() => setShowConversations(!showConversations)} className="text-organic-500 p-2.5 rounded-organic hover:bg-organic-100 transition-colors">
+      <div className="flex-1 flex flex-col h-full w-full overflow-hidden overflow-x-hidden">
+        {activeConversation && (
+          <div className="hidden md:flex justify-end mb-3">
+            <button
+              onClick={() => { onCloseConversation(); setMessages([{ role: 'assistant', content: welcomeMessage }]); }}
+              className="text-organic-500 p-2.5 rounded-organic hover:bg-organic-100 transition-colors text-sm font-medium flex items-center gap-1.5 cursor-pointer"
+            >
+              <X size={16} /> Cerrar conversación
+            </button>
+          </div>
+        )}
+        <div className="md:hidden mb-3 flex gap-3">
+          <button onClick={() => setShowConversations(!showConversations)} className="text-organic-500 p-3 rounded-organic hover:bg-organic-100 transition-colors">
             {showConversations ? <X size={20} /> : <MessageSquare size={20} />}
           </button>
+          {activeConversation && (
+            <button onClick={() => { onCloseConversation(); setMessages([{ role: 'assistant', content: welcomeMessage }]); }} className="text-organic-500 p-3 rounded-organic hover:bg-organic-100 transition-colors" title="Cerrar conversación">
+              <X size={20} />
+            </button>
+          )}
         </div>
         {error && (
           <div className="mb-4 bg-terracotta-50 border border-terracotta-200 text-terracotta-700 px-5 py-3 rounded-organic text-sm shadow-organic-sm">{error}</div>
         )}
-        <div className="flex-1 overflow-y-auto space-y-4 mb-4 pr-2" ref={scrollRef}>
+        <div className="flex-1 overflow-y-auto space-y-4 mb-5 pr-3" ref={scrollRef}>
           {messages.map((m, i) => <ChatMessage key={i} message={m} />)}
           {isTyping && (
             <div className="flex justify-start">
@@ -121,7 +136,7 @@ const AssistantScreen = ({ settings, onSave, conversations, activeConversation, 
             </div>
           )}
         </div>
-        <div className="bg-white/90 backdrop-blur-sm p-4 rounded-organic-lg shadow-organic border border-organic-100 flex gap-3">
+        <div className="bg-white/90 backdrop-blur-sm p-5 rounded-organic-lg shadow-organic border border-organic-100 flex gap-3">
           <input
             type="text"
             value={input}
@@ -132,7 +147,7 @@ const AssistantScreen = ({ settings, onSave, conversations, activeConversation, 
           />
           <button
             onClick={handleSend}
-            className="bg-leaf-700 text-white p-3 rounded-organic hover:bg-leaf-800 active:bg-leaf-900 transition-all duration-200 shadow-leaf cursor-pointer"
+            className="bg-leaf-700 text-white p-4 rounded-organic hover:bg-leaf-800 active:bg-leaf-900 transition-all duration-200 shadow-leaf cursor-pointer"
           >
             <Send size={20} />
           </button>

@@ -51,15 +51,16 @@ const App = () => {
   if (!isLoaded) return null;
 
   return (
-    <div className="min-h-screen bg-organic-50 flex flex-col md:flex-row font-body text-organic-900 organic-grain">
+    <div className="h-screen bg-organic-50 flex flex-col md:flex-row font-body text-organic-900 organic-grain overflow-hidden overflow-x-hidden relative">
       <div className="organic-blob w-96 h-96 bg-leaf-300 -top-48 -right-48" />
       <div className="organic-blob w-64 h-64 bg-terracotta-200 bottom-20 -left-32" />
+
       {error && (
         <div className="fixed top-4 right-4 bg-terracotta-50 border border-terracotta-300 text-terracotta-700 px-5 py-3 rounded-organic z-50 shadow-organic">
           {error}
         </div>
       )}
-      <nav className="w-full md:w-72 bg-white/90 backdrop-blur-sm border-b md:border-r border-organic-200 p-3 md:p-5 flex md:flex-col justify-between relative z-10">
+      <nav className="w-full md:w-72 bg-white/90 backdrop-blur-sm border-b md:border-r border-organic-200 p-3 md:p-5 flex md:flex-col justify-between relative z-10 overflow-hidden">
         <div className="flex flex-col gap-6 w-full">
           <div className="hidden md:flex items-center gap-3 px-3 py-5">
             <div className="bg-leaf-700 p-2.5 rounded-organic text-white shadow-leaf">
@@ -70,7 +71,7 @@ const App = () => {
               <p className="text-xs text-organic-400 font-body">Tracker</p>
             </div>
           </div>
-          <div className="flex md:flex-col gap-1.5 w-full overflow-x-auto md:justify-start justify-center">
+          <div className="flex md:flex-col gap-1.5 w-full overflow-x-hidden md:justify-start justify-center">
             {tabs.map(tab => (
               <NavButton key={tab.id} active={activeTab === tab.id} onClick={() => setActiveTab(tab.id)} icon={tab.icon} label={tab.label} />
             ))}
@@ -78,7 +79,7 @@ const App = () => {
         </div>
       </nav>
 
-      <main className="flex-1 overflow-hidden relative flex flex-col z-10">
+      <main className="flex-1 overflow-hidden relative flex flex-col z-10 w-full min-w-0">
         {activeTab === 'assistant' && (
           <AssistantScreen
             settings={settings}
@@ -89,6 +90,7 @@ const App = () => {
             onNewConversation={conversationHooks.startNewConversation}
             onUpdateConversation={conversationHooks.updateConversation}
             onDeleteConversation={conversationHooks.deleteConversation}
+            onCloseConversation={() => conversationHooks.setActiveConversationId(null)}
           />
         )}
         {activeTab === 'history' && (

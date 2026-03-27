@@ -3,7 +3,7 @@ import { Trash2, Plus } from 'lucide-react';
 import { formatShortDate } from '../utils/date';
 
 const ConversationSidebar = ({ conversations, activeConversation, onLoad, onNew, onDelete }) => (
-  <div className="fixed md:relative inset-0 md:inset-auto w-full md:w-72 bg-white/80 backdrop-blur-sm border-r border-organic-200 flex flex-col z-40">
+  <div className="relative w-full md:w-72 bg-white/80 backdrop-blur-sm border-r border-organic-200 flex flex-col z-40 h-full">
     <div className="p-4 border-b border-organic-100">
       <button
         onClick={onNew}
