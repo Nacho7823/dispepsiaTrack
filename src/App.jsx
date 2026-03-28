@@ -111,6 +111,7 @@ const App = () => {
           <AssistantScreen
             settings={settings}
             onSave={addEntry}
+            onRefreshEntries={() => fetchEntries().then(data => setEntries(data || [])).catch(() => {})}
             conversations={conversationHooks.conversations}
             activeConversation={conversationHooks.activeConversation}
             onLoadConversation={conversationHooks.loadConversation}

@@ -6,7 +6,6 @@ const buildEntrySchema = (customFields) => {
     .join(',\n');
 
   return `{
-  "fecha": "2024-01-01T12:00:00.000Z",
   "sintoma_tipo": ["tipo"],
   "intensidad": 5,
   "ubicacion": "texto",

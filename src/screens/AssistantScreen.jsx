@@ -5,7 +5,7 @@ import { buildSystemPrompt } from '../utils/schema';
 import ChatMessage from '../components/ChatMessage';
 import ConversationSidebar from '../components/ConversationSidebar';
 
-const AssistantScreen = ({ settings, onSave, conversations, activeConversation, onLoadConversation, onNewConversation, onUpdateConversation, onDeleteConversation, onCloseConversation, isSidebarCollapsed, onToggleSidebar }) => {
+const AssistantScreen = ({ settings, onSave, onRefreshEntries, conversations, activeConversation, onLoadConversation, onNewConversation, onUpdateConversation, onDeleteConversation, onCloseConversation, isSidebarCollapsed, onToggleSidebar }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -50,16 +50,8 @@ const AssistantScreen = ({ settings, onSave, conversations, activeConversation, 
           const newMessages = [...userMessages, { role: 'assistant', content: data.content }];
           setMessages(newMessages);
           if (conv) onUpdateConversation(conv.id, newMessages);
-
-          const jsonMatch = data.content.match(/\{[\s\S]*\}/);
-          if (jsonMatch) {
-            try {
-              const entryData = JSON.parse(jsonMatch[0]);
-              onSave(entryData);
-              const savedMsg = [...newMessages, { role: 'assistant', content: "Registro guardado correctamente. ¿Deseas anotar algo más?" }];
-              setMessages(savedMsg);
-              if (conv) onUpdateConversation(conv.id, savedMsg);
-            } catch { }
+          if (data.entryCreated && onRefreshEntries) {
+            onRefreshEntries();
           }
           break;
         }
