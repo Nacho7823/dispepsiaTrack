@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 
+const toLocalDatetime = (date) => {
+  const d = date instanceof Date ? date : new Date(date);
+  if (isNaN(d.getTime())) return new Date().toISOString().slice(0, 19);
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+};
+
 const EditEntryModal = ({ entry, onSave, onClose, columns }) => {
   const isCreate = !entry;
   const customFieldCols = (columns || []).filter(c => c.type === 'custom');
 
   const initialFormData = {
-    fecha: entry?.fecha ? new Date(entry.fecha).toISOString().slice(0, 16) : new Date().toISOString().slice(0, 16),
+    fecha: entry?.fecha ? toLocalDatetime(entry.fecha) : toLocalDatetime(new Date()),
     sintoma_tipo: entry?.sintoma_tipo?.join(', ') || '',
     intensidad: entry?.intensidad || 5,
     ubicacion: entry?.ubicacion || '',
@@ -28,7 +35,7 @@ const EditEntryModal = ({ entry, onSave, onClose, columns }) => {
     e.preventDefault();
     const data = {
       ...formData,
-      fecha: formData.fecha ? new Date(formData.fecha).toISOString() : new Date().toISOString(),
+      fecha: formData.fecha || toLocalDatetime(new Date()),
       sintoma_tipo: formData.sintoma_tipo.split(',').map(s => s.trim()).filter(s => s)
     };
     onSave(entry?.id, data);

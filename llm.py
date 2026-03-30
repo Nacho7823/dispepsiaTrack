@@ -159,9 +159,10 @@ def parse_fecha(fecha_str):
 
     fecha_str = str(fecha_str).strip()
     try:
-        if "T" in fecha_str:
-            return fecha_str
+        if fecha_str.endswith("Z"):
+            fecha_str = fecha_str[:-1]
         for fmt in [
+            "%Y-%m-%dT%H:%M:%S.%f",
             "%Y-%m-%dT%H:%M:%S",
             "%Y-%m-%dT%H:%M",
             "%Y-%m-%d %H:%M:%S",
@@ -173,7 +174,7 @@ def parse_fecha(fecha_str):
                 return datetime.strptime(fecha_str, fmt).isoformat()
             except:
                 continue
-        return fecha_str
+        return datetime.now().isoformat()
     except:
         return datetime.now().isoformat()
 
